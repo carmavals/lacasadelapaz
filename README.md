@@ -28,7 +28,7 @@ Para facilitar la colaboración y el intercambio de ideas, utilizamos las siguie
       <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" alt="GitHub" width="28" style="vertical-align: middle; margin-right: 12px;">Entrar al repositorio GitHub
     </button>
   </a>
-  <a href="https://lacasadelapaz.org" target="_blank" style="text-decoration: none;">
+  <a href="https://carmavals.github.io/lacasadelapaz/proyecto.html" target="_blank" style="text-decoration: none;">
     <button style="background: #1976d2; color: #fff; border: none; border-radius: 8px; padding: 18px 36px; font-size: 1.3em; margin: 10px; cursor: pointer; box-shadow: 0 2px 8px rgba(0,0,0,0.15);">
       <img src="https://img.icons8.com/ios-filled/50/ffffff/internet--v1.png" alt="Web" width="25" style="vertical-align: middle; margin-right: 12px;">Entrar a la web del proyecto
     </button>
