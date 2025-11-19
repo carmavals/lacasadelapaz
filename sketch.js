@@ -44,16 +44,16 @@ let nombres = [
 ];
 
 let links = [
-  "casapaz.html",
-  "skafuche.html",
-  "mutualitosymutualidades.html",
-  "huertachisas.html",
-  "tamboras.html",
-  "casamemoria.html",
-  "usmekaz.html",
-  "golpedebarrio.html",
-  "ambientesdepaz.html",
-  "aguantepopular.html"
+  "https://www.latrochalacasadelapaz.com/", // Casa de la Paz (external)
+  "https://editor.p5js.org/varevalo/sketches/ojFSSCEVo", // Skafuche
+  "https://editor.p5js.org/varevalo/sketches/Txn1sIdRo", // Mutualitos y Mutualitas
+  "https://editor.p5js.org/observatorio/sketches/hZOeCyLJX", // Huerta Chisas
+  "https://editor.p5js.org/varevalo/sketches/dYgz694vZ", // Tamboras de Suba
+  "https://editor.p5js.org/varevalo/sketches/BNmDac72z", // Casa Memoria
+  "https://editor.p5js.org/varevalo/sketches/GkSmtp7e7", // Usmekaz
+  "https://editor.p5js.org/observatorio/sketches/eKOte-5Sg", // Golpe de Barrio
+  "https://editor.p5js.org/observatorio/sketches/RQXTRGCuK", // Ambientes de Paz
+  "https://editor.p5js.org/varevalo/sketches/BNmDac72z"  // Aguante Popular
 ];
 
 // --- preload: load images from assets/ with callbacks to confirm success ---
@@ -313,7 +313,7 @@ function mousePressed() {
         let bw = 100;
         let bh = 35;
         if (mouseX > bx - bw / 2 && mouseX < bx + bw / 2 && mouseY > by - bh / 2 && mouseY < by + bh / 2) {
-          window.open(links[popupActivo], "_self");
+          window.open(links[popupActivo], "_blank");
           return;
         }
       }
@@ -668,7 +668,8 @@ window.addEventListener('DOMContentLoaded', () => {
         // Create button and parent it to the container
         boton = p.createButton('EL BICHO');
         boton.parent(parentElD);
-        boton.position( Math.max(12, Math.floor(w*0.4)), 180 );
+        // position the button inside the parent using CSS so it stays in the sketch area
+        try{ boton.style('position','absolute'); boton.style('left', Math.max(12, Math.floor(w*0.4)) + 'px'); boton.style('top','180px'); } catch(e){}
         boton.mousePressed(() => { mostrarContenido(); });
 
         p.textAlign(p.CENTER, p.CENTER);
@@ -698,7 +699,8 @@ window.addEventListener('DOMContentLoaded', () => {
           p.fill(0);
           p.textSize(18);
           p.textAlign(p.CENTER);
-          p.text("Esta huerta agroecológica comunitaria y popular con enfoque en memoria, paz, cultura y soberanía alimentaria en Bosa Porvenir surge como un espacio de resistencia ante la disputa territorial contra el paramilitarismo y el microtráfico así como de las violencias ambientales. Este territorio ha sido históricamente marcado por los intentos de masacre a líderes sociales, donde, a lo largo de los años, han sido asesinados jóvenes comprometidos con la construcción de una paz con justicia social, entre ellos Camila y Camilo. La huerta se constituye como una de las colectividades que convergen alrededor de “El Bicho”, una estructura móvil diseñada por Arquitectura Expandida, que se transforma en un escenario movible para diversas prácticas pedagógicas", p.width/7, p.height/8, 550, 700);
+          const desc = "Esta huerta agroecológica comunitaria y popular con enfoque en memoria, paz, cultura y soberanía alimentaria en Bosa Porvenir surge como un espacio de resistencia ante la disputa territorial contra el paramilitarismo y el microtráfico así como de las violencias ambientales. Este territorio ha sido históricamente marcado por los intentos de masacre a líderes sociales, donde, a lo largo de los años, han sido asesinados jóvenes comprometidos con la construcción de una paz con justicia social, entre ellos Camila y Camilo. La huerta se constituye como una de las colectividades que convergen alrededor de ‘El Bicho’, una estructura móvil diseñada por Arquitectura Expandida, que se transforma en un escenario movible para diversas prácticas pedagógicas.";
+          p.text(desc, p.width/7, p.height/8, 550, 700);
           p.text("HUERTA CHISAS", p.width/2, 20);
         }
       };
