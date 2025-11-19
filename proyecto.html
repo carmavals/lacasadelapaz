@@ -16,9 +16,8 @@
     crossorigin=""></script>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <!-- <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
       <div class="container-fluid">
-        <a class="navbar-brand" href="#">MOCHILEANDO POR LA PAZ</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
@@ -36,36 +35,52 @@
           </ul>
         </div>
       </div>
-    </nav>
+    </nav> -->
+
+    <!-- Hero image (placed before the logo) with heading inside -->
+    <section id="hero" aria-hidden="false" role="img" aria-label="Imagen de encuentros">
+      <div class="hero-text">
+        <p>Un recorrido por los territorios, colectivos y memorias vivas que construyen paz desde lo cotidiano</p>
+      </div>
+      <h1 class="hero-heading">MOCHILEANDO POR LA PAZ</h1>
+    </section>
+
     <header>
       <div class="header-content">
         <img class="juntanza" src="assets/logo chami.jpeg" alt=""> 
       </div>
     </header>
 
-    <!-- New section: same hero image used previously, placed under the header -->
-    <section id="hero" aria-hidden="false" role="img" aria-label="Imagen de encuentros">
-      <div class="hero-text">
-        <p>Descripción breve: Encuentros, huertas y proyectos comunitarios que conectan experiencias y memorias.</p>
-      </div>
-    </section>
-
     <!-- Map container (main map canvas will be attached here) -->
     <section class="container" style="max-width:1200px;margin:36px auto;">
       <div id="map"></div>
     </section>
 
-    <!-- Three stacked sketch canvases attached to sketch.js -->
+    <!-- Full-width intro image with heading overlay -->
+    <section class="intro-hero" aria-hidden="false" role="img" style="background-image:url('assets/whatssapp.jpeg');background-size:cover;background-position:center center;width:100vw;margin-left:calc(50% - 50vw);">
+      <!-- left framed title box -->
+      <div class="left-box">
+        <h3 style="color:#fff;text-align:left;max-width:100%;margin:0;font-size:clamp(18px,3vw,32px);">Exploraciones con nuevos medios para armar una cartografía</h3>
+      </div>
+      <!-- right descriptive paragraph placed at the opposite side -->
+      <div class="right-box">
+        <p class="intro-desc">este es un work in progress que muestra el procesos de creación de diferentes formas de representación para mostrar a diferentes colectivos con los que hemos trabajado</p>
+      </div>
+    </section>
+
+    <!-- Sketch canvases container -->
     <section class="container" style="max-width:1200px;margin:36px auto;">
       <div id="sketch-a" style="margin-bottom:28px;"></div>
       <div id="sketch-b" style="margin-bottom:28px;"></div>
       <div id="sketch-c"></div>
+      <div id="sketch-d" style="position:relative;margin-top:28px;margin-bottom:28px;"></div>
     </section>
   
    
   
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/addons/p5.sound.min.js"></script>
     <script src="mappa.min.js"></script>
     <script src="sketch.js"></script>
     
