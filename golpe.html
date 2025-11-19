@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Golpe de Barrio</title>
+
+  <!-- p5.js -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.2/p5.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.2/addons/p5.dom.min.js"></script>
+
+  <!-- Fuentes Google: título urbano, subtítulos dinámicos, texto legible -->
+    <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Bebas+Neue&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+   
+  </style>
+</head>
+<body>
+  <main id="app"></main>
+
+  <script>
+    function setup() {
+      noCanvas();
+
+      const app = select('#app');
+
+      // LOGO arriba a la derecha
+      // Asegúrate de que "logo-golpe.png" exista en la carpeta del proyecto
+      const logo = createImg('logo-golpe.png', 'Logo Golpe de Barrio');
+      logo.id('logo-golpe');
+      logo.parent(app);
+
+      // Título principal
+      createElement('h1', 'Golpe de Barrio')
+        .id('page-title')
+        .parent(app);
+
+      // Subtítulo pequeño (opcional)
+      createP('Colectivo HIP-HOP · Bosa, Bogotá D.C.')
+        .id('subtitle')
+        .parent(app);
+
+      // Meta-información fija
+      const meta = createDiv().class('meta').parent(app);
+      createP('Localidad: Bosa').parent(meta);
+      createP(
+        'Barrio o territorio: Portal Américas y Bosa San Bernardino; acción frecuente en el Parque Metropolitano El Porvenir y parques de Bosa (ej., Brasil Tercer Sector).'
+      ).parent(meta);
+
+      createP('Haz clic en cada título para ver más información.')
+        .class('hint')
+        .parent(app);
+
+      // Datos de las secciones
+      const sectionsData = [
+        {
+          title: 'Información general',
+          html:
+            'Organización social y comunidad HIP-HOP que trabaja en y para los barrios, ' +
+            'centrada en la interrupción e intervención artística del territorio para promover ' +
+            'apropiación y vínculos comunitarios desde la cultura barrial. Activa desde 2012.'
+        },
+        {
+          title: 'Población con la que trabaja',
+          html:
+            'Jóvenes y habitantes de los barrios de Bosa; comunidad HIP-HOP local.'
+        },
+        {
+          title: 'Temas o líneas de trabajo',
+          html:
+            'Hip-hop (MC, DJ/producción, breaking y grafiti), resignificación del espacio público, ' +
+            'procesos pedagógicos en espacio público ("laboratorios al parque"), cartografía social ' +
+            '(Mapeo al Pedazo) y apropiación territorial / derecho a la ciudad.'
+        },
+        {
+          title: 'Breve historia o recorrido',
+          html:
+            '<ul>' +
+              '<li><strong>2012:</strong> 1.ª edición del festival Golpe de Barrio.</li>' +
+              '<li><strong>2013:</strong> 2.ª edición; apoyos distritales (Idartes/IDIPRON) y activaciones en parque Brasil Tercer Sector.</li>' +
+              '<li><strong>2018:</strong> 5.ª edición "El Retorno del Hip Hop", con cuatro fiestas pedagógicas (DJ, break, grafiti, MC) en torno al festival.</li>' +
+              '<li><strong>2019:</strong> 6.ª edición "El Poder Infinito" y Laboratorios al Parque en el parque lineal de Parques de Bogotá – Bosa.</li>' +
+              '<li><strong>2020:</strong> 7.ª edición (online) y proyecto Mapeo al Pedazo junto a Arquitectura Expandida.</li>' +
+              '<li><strong>2022:</strong> co-diseño y construcción de El Bicho con Arquitectura Expandida y Distreestyle en el Parque Metropolitano El Porvenir.</li>' +
+            '</ul>'
+        },
+        {
+          title: 'Articulaciones o redes',
+          html:
+            '<ul>' +
+              '<li>Arquitectura Expandida (AXP)</li>' +
+              '<li>Distreestyle</li>' +
+              '<li>Idartes / IDIPRON y Alcaldía de Bogotá (festivales y talleres)</li>' +
+              '<li>Universidad Distrital (sede Bosa)</li>' +
+              '<li>Parques de Bogotá</li>' +
+              '<li>Colaboración con Bogotrax</li>' +
+            '</ul>'
+        },
+        {
+          title: 'Contacto y redes sociales',
+          html:
+            '<ul>' +
+              '<li>Correo: <a href="mailto:golpedebarriooficial@gmail.com">golpedebarriooficial@gmail.com</a></li>' +
+              '<li>Web: <a href="https://golpedebarrio.wordpress.com" target="_blank" rel="noopener">golpedebarrio.wordpress.com</a></li>' +
+              '<li>Facebook: "Golpe De Barrio"</li>' +
+              '<li>Instagram: <a href="https://www.instagram.com/golpedebarrio_oficial" target="_blank" rel="noopener">@golpedebarrio_oficial</a></li>' +
+            '</ul>'
+        }
+      ];
+
+      // Crear secciones dinámicas tipo acordeón
+      sectionsData.forEach(function (sec) {
+        const section = createDiv().class('section').parent(app);
+
+        const header = createElement('h2', sec.title)
+          .class('section-title')
+          .parent(section);
+
+        // Icono ▶
+        const icon = createSpan('▶')
+          .class('icon')
+          .parent(header);
+
+        const body = createDiv()
+          .class('section-body hidden')
+          .parent(section);
+
+        body.html(sec.html);
+
+        header.mousePressed(function () {
+          body.toggleClass('hidden');
+          section.toggleClass('open');
+        });
+      });
+    }
+  </script>
+</body>
+</html>

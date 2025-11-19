@@ -1,9 +1,11 @@
 // --- p5.js + mappa.js ---
-// Mapa con imágenes individuales, popups y botones de control
+// Reworked to attach main map canvas into a #map container to avoid body overflow
+// and to create three additional stacked canvases (using p5 instance mode) inside
+// #sketch-a, #sketch-b, #sketch-c.
 
 let mappa;
 let myMap;
-let canvas;
+let mapCanvas;
 let imgs = [];
 let popupActivo = null;
 
@@ -14,7 +16,7 @@ const options = {
   style: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
 };
 
-// Puntos con información
+// Puntos con información (same as before)
 let puntos = [
   { lat: 4.624872641950023, lng: -74.06789781939149, nombre: "Casa de la Paz", descripcion: "Espacio comunitario y cultural.", img: "assets/casitapaz.jpg" },
   { lat: 4.6101134849575764, lng: -74.18468699431672, nombre: "Skafuche", descripcion: "Centro social y artístico.", img: "assets/skafuche.jpg" },
@@ -29,17 +31,28 @@ let puntos = [
 
 let puntosOriginales = []; // para restaurar luego
 
+// Preload images for puntos
 function preload() {
   for (let i = 0; i < puntos.length; i++) {
     imgs[i] = loadImage(puntos[i].img);
   }
 }
 
+// Create the main map canvas inside the #map element
 function setup() {
-  canvas = createCanvas(windowWidth, 800);
+  // find the map container and use its width to create a canvas that fits
+  const mapContainer = document.getElementById('map');
+  const containerWidth = mapContainer ? mapContainer.clientWidth : windowWidth;
+  const canvasHeight = 600; // fixed height for the map canvas
+
+  mapCanvas = createCanvas(containerWidth, canvasHeight);
+  // attach canvas inside the #map container
+  if (mapContainer) mapCanvas.parent('map');
+  else mapCanvas.position(0, 0);
+
   mappa = new Mappa('Leaflet');
   myMap = mappa.tileMap(options);
-  myMap.overlay(canvas);
+  myMap.overlay(mapCanvas);
 
   imageMode(CENTER);
   textAlign(CENTER);
@@ -49,16 +62,24 @@ function setup() {
   // Guardar copia original
   puntosOriginales = structuredClone(puntos);
 
-  // Botones
-  let botonLimpiar = createButton("Limpiar puntos");
-  botonLimpiar.position(20, 890);
+  // Buttons placed relative to the map container instead of absolute page coords
+  const btnContainer = document.createElement('div');
+  btnContainer.style.position = 'absolute';
+  btnContainer.style.left = '14px';
+  btnContainer.style.top = (canvasHeight + 12) + 'px';
+  btnContainer.style.zIndex = 9999;
+  btnContainer.id = 'map-btns';
+  if (mapContainer) mapContainer.appendChild(btnContainer);
+
+  let botonLimpiar = createButton('Limpiar puntos');
+  botonLimpiar.parent(btnContainer);
   botonLimpiar.mousePressed(() => {
     puntos = [];
     popupActivo = null;
   });
 
-  let botonRestaurar = createButton("Restaurar puntos");
-  botonRestaurar.position(140, 890);
+  let botonRestaurar = createButton('Restaurar puntos');
+  botonRestaurar.parent(btnContainer);
   botonRestaurar.mousePressed(restaurarPuntos);
 }
 
@@ -107,5 +128,50 @@ function restaurarPuntos() {
 }
 
 function windowResized() {
-  resizeCanvas(windowWidth, 800);
+  // resize main map canvas to fit its container width
+  const mapContainer = document.getElementById('map');
+  const newWidth = mapContainer ? mapContainer.clientWidth : windowWidth;
+  const newHeight = 600; // keep constant height for map canvas
+  resizeCanvas(newWidth, newHeight);
 }
+
+// --- Additional stacked sketches (three canvases) ---
+// Each sketch draws a simple animated background; they are created in p5 instance mode
+// and attach to divs with ids: sketch-a, sketch-b, sketch-c
+
+function makeSketch(id, colorA, colorB) {
+  return function(p) {
+    let w, h;
+    p.setup = function() {
+      const parent = document.getElementById(id);
+      w = parent ? parent.clientWidth : windowWidth;
+      h = 320;
+      p.createCanvas(w, h);
+      p.noStroke();
+    };
+    p.draw = function() {
+      // simple animated gradient
+      const t = p.millis() * 0.0002;
+      for (let y = 0; y < p.height; y++) {
+        const n = p.map(y, 0, p.height, 0, 1);
+        const r = p.lerp(colorA[0], colorB[0], n + 0.12 * Math.sin(t + y * 0.01));
+        const g = p.lerp(colorA[1], colorB[1], n);
+        const b = p.lerp(colorA[2], colorB[2], n - 0.08 * Math.cos(t + y * 0.013));
+        p.fill(r, g, b);
+        p.rect(0, y, p.width, 1);
+      }
+    };
+    p.windowResized = function() {
+      const parent = document.getElementById(id);
+      const newW = parent ? parent.clientWidth : windowWidth;
+      p.resizeCanvas(newW, h);
+    };
+  };
+}
+
+// create three sketches when DOM is ready
+window.addEventListener('DOMContentLoaded', () => {
+  new p5(makeSketch('sketch-a', [24,18,38], [191,145,234]));
+  new p5(makeSketch('sketch-b', [8,20,12], [126,26,96]));
+  new p5(makeSketch('sketch-c', [10,10,20], [242,234,105]));
+});
